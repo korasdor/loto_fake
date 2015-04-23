@@ -22,9 +22,10 @@ func main() {
 	// handlers.StartLototron()
 
 	router := mux.NewRouter()
-	router.HandleFunc("/game/common/balance", handlers.BalanceHandler)
-	router.HandleFunc("/game/{game_name}/rules", handlers.RulesHandler)
-	router.HandleFunc("/game/{game_name}/{game_id}/win", handlers.WinsHandler)
+	router.HandleFunc("/game/common/balance", handlers.GetBalanceHandler)
+	router.HandleFunc("/game/{game_name}/rules", handlers.GetRulesHandler)
+	router.HandleFunc("/game/{game_name}/{game_id}/bets", handlers.GetBetsHandler)
+	router.HandleFunc("/game/{game_name}/{game_id}/win", handlers.GetWinHandler)
 
 	http.Handle("/", router)
 

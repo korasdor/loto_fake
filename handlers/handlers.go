@@ -8,7 +8,7 @@ import (
 	"net/http"
 )
 
-func BalanceHandler(w http.ResponseWriter, req *http.Request) {
+func GetBalanceHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	response := services.GetBalanceMessage()
@@ -16,7 +16,7 @@ func BalanceHandler(w http.ResponseWriter, req *http.Request) {
 
 }
 
-func RulesHandler(w http.ResponseWriter, req *http.Request) {
+func GetRulesHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	vars := mux.Vars(req)
@@ -35,7 +35,7 @@ func RulesHandler(w http.ResponseWriter, req *http.Request) {
 	// fmt.Fprint(w, response)
 }
 
-func WinsHandler(w http.ResponseWriter, req *http.Request) {
+func GetBetsHandler(w http.ResponseWriter, req *http.Request) {
 	w.Header().Set("Access-Control-Allow-Origin", "*")
 
 	vars := mux.Vars(req)
@@ -44,7 +44,24 @@ func WinsHandler(w http.ResponseWriter, req *http.Request) {
 
 	var response string
 	if gameName == data.GameName {
-		response = services.GetWinsMessage(gameId)
+		response = services.GetBetsMessage(gameId)
+		fmt.Fprint(w, response)
+	} else {
+		response := fmt.Sprintf("%s not supproted", gameName)
+		fmt.Fprint(w, response)
+	}
+}
+
+func GetWinHandler(w http.ResponseWriter, req *http.Request) {
+	w.Header().Set("Access-Control-Allow-Origin", "*")
+
+	vars := mux.Vars(req)
+	gameName := vars["game_name"]
+	gameId := vars["game_id"]
+
+	var response string
+	if gameName == data.GameName {
+		response = services.GetWinMessage(gameId)
 		fmt.Fprint(w, response)
 	} else {
 		response := fmt.Sprintf("%s not supproted", gameName)

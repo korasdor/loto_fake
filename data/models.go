@@ -1,30 +1,29 @@
 package data
 
 import (
-	"fmt"
 	"math/rand"
 	"time"
 )
 
 var (
 	Jp              []float32
-	Coefs           [][]float32    = make([][]float32, 10)
-	Balls           []int          = make([]int, 0)
-	GameId          int            = 0
-	Bets            []BetMsgStruct = make([]BetMsgStruct, 0)
-	TotalBalance    float32        = 100000.00
-	TotalBonus      float32        = 1000.00
-	GameCounter     int            = 0
-	IsFinished      bool           = true
-	OnBet           bool           = false
-	RandBalls       []int          = make([]int, 0)
-	BetTime         time.Duration  = 30000
-	BallTime        time.Duration  = 1000
-	TotalWin        float32        = 0
-	BetTimout       int            = int(BetTime) / 1000
-	Token           string         = "b9d7683e179210d6bff6f3f4c4217a1b"
-	GameName        string         = "aztec"
-	CurrentCurrency string         = "rub"
+	Coefs           [][]float32        = make([][]float32, 10)
+	Balls           []int              = make([]int, 0)
+	Contet          []ContentMsgStruct = make([]ContentMsgStruct, 0)
+	GameId          int                = 0
+	TotalBalance    float32            = 100000.00
+	TotalBonus      float32            = 1000.00
+	GameCounter     int                = 0
+	IsFinished      bool               = true
+	OnBet           bool               = false
+	RandBalls       []int              = make([]int, 0)
+	BetTime         time.Duration      = 30000
+	BallTime        time.Duration      = 1000
+	TotalWin        float32            = 0
+	BetTimout       int                = int(BetTime) / 1000
+	Token           string             = "b9d7683e179210d6bff6f3f4c4217a1b"
+	GameName        string             = "aztec"
+	CurrentCurrency string             = "rub"
 )
 
 type BalanceMsgStruct struct {
@@ -43,15 +42,12 @@ type RulesMsgStruct struct {
 }
 
 type BetsMsgStruct struct {
-	Bets  []BetMsgStruct `json:"bets"`
-	Token string         `json:"token"`
+	BetId   int                `json:"bet_id"`
+	Bet_sum float32            `json:"bet_sum"`
+	Content []ContentMsgStruct `json:"content"`
 }
 
-type BetMsgStruct struct {
-	Bet_sum float32 `json:"bet_sum"`
-	Content []int   `json:"content"`
-	Bonus   bool    `json:"bonus"`
-	Coeff   float32 `json:"coeff"`
+type ContentMsgStruct struct {
 }
 
 type RandMsgStruct struct {
@@ -115,42 +111,4 @@ func Shuffle(arr []int) []int {
 	}
 
 	return arr
-}
-
-func CalcWin() {
-	matches := make([]MatchStruct, 0)
-	for i := 0; i < len(Bets); i++ {
-		content := Bets[i].Content
-
-		matchStr := MatchStruct{
-			Id:         i,
-			MatchCount: 0,
-			MaxNums:    len(Bets[i].Content),
-			BetValue:   Bets[i].Bet_sum,
-		}
-
-		for j := 0; j < len(content); j++ {
-			for k := 0; k < len(Balls); k++ {
-				if content[j] == Balls[k] {
-					matchStr.MatchCount += 1
-				}
-			}
-		}
-
-		if matchStr.MatchCount > 0 {
-			matches = append(matches, matchStr)
-		}
-	}
-
-	TotalWin = 0
-	for i := 0; i < len(matches); i++ {
-		matchStr := matches[i]
-
-		row := Coefs[matchStr.MaxNums-1]
-		curCoef := row[matchStr.MatchCount-1]
-
-		fmt.Printf("row : %s, curCoef: %f\n, matchCount: %d\n", row, curCoef, matchStr.MatchCount)
-
-		TotalWin += (curCoef * matchStr.BetValue)
-	}
 }

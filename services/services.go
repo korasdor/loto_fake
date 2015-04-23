@@ -39,7 +39,22 @@ func GetRulesMessage() string {
 	return string(strb)
 }
 
-func GetWinsMessage(gameId string) string {
+func GetBetsMessage(gameId string) string {
+	msg := data.BetsMsgStruct{
+		BetId:   1,
+		Bet_sum: 10,
+		Content: data.Contet,
+	}
+
+	strb, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(strb)
+}
+
+func GetWinMessage(gameId string) string {
 	msg := data.WinMsgStruct{
 		Total_win: 2500,
 	}
