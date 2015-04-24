@@ -30,6 +30,8 @@ type BalanceMsgStruct struct {
 	Сurrency      string  `json:"currency"`
 	Balance       float32 `json:"balance"`
 	Bonus_balance float32 `json:"bonus_balance"`
+	Bet_id        int     `json:"bet_id"`
+	Bet_id_list   []int   `json:"bet_id_list"`
 }
 
 type RulesMsgStruct struct {
@@ -42,9 +44,9 @@ type RulesMsgStruct struct {
 }
 
 type BetsMsgStruct struct {
-	BetId   int                `json:"bet_id"`
-	Bet_sum float32            `json:"bet_sum"`
-	Content []ContentMsgStruct `json:"content"`
+	BetId   int              `json:"bet_id"`
+	Bet_sum float32          `json:"bet_sum"`
+	Content ContentMsgStruct `json:"content"`
 }
 
 type ContentMsgStruct struct {

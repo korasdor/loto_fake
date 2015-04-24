@@ -43,7 +43,22 @@ func GetBetsMessage(gameId string) string {
 	msg := data.BetsMsgStruct{
 		BetId:   1,
 		Bet_sum: 10,
-		Content: data.Contet,
+		Content: data.ContentMsgStruct{},
+	}
+
+	strb, err := json.Marshal(msg)
+	if err != nil {
+		panic(err)
+	}
+
+	return string(strb)
+}
+
+func PostBetsMessage() string {
+	msg := data.BalanceMsgStruct{
+		Balance:       data.TotalBalance,
+		Bonus_balance: data.TotalBonus,
+		Bet_id:        1,
 	}
 
 	strb, err := json.Marshal(msg)

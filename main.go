@@ -25,6 +25,8 @@ func main() {
 	router.HandleFunc("/game/common/balance", handlers.GetBalanceHandler)
 	router.HandleFunc("/game/{game_name}/rules", handlers.GetRulesHandler)
 	router.HandleFunc("/game/{game_name}/{game_id}/bets", handlers.GetBetsHandler)
+	router.HandleFunc("/game/{game_name}/bets", handlers.PostBetsHandler)
+	router.HandleFunc("/game/{game_name}/bets/{bet_id}/{var_type}", handlers.PostBetChangeHandler)
 	router.HandleFunc("/game/{game_name}/{game_id}/win", handlers.GetWinHandler)
 
 	http.Handle("/", router)
